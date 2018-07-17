@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
     private PlayerAttackScript attackScript;
     private KnockbackScript knockbackScript;
     private HealthScript healthScript;
+    public UIManager ui;
 
     void Start () {
         this.body = GetComponent<Rigidbody2D>();
@@ -23,12 +24,13 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update() {
-
+        
     }
 
     public void doDamage(float amount, GameObject who) {
         if (this.healthScript.dealDamage((int)amount)) {
             this.knockbackScript.knockback(who.transform.position);
+            this.ui.displayDamage((int)amount, this.transform.position, Color.red);
         }
     }
 

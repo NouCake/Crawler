@@ -18,7 +18,9 @@ public class CameraController : MonoBehaviour {
 	}
 	
 	void LateUpdate () {
-        this.followUpdate();
+        if(this.follow != null) {
+            this.followUpdate();
+        }
         this.shakeUpdate();
         this.checkZAxis();
 	}

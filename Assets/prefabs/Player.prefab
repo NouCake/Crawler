@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 114929449982207522}
   - component: {fileID: 114882397164436410}
   - component: {fileID: 114790096247992212}
+  - component: {fileID: 114308509151208468}
   m_Layer: 8
   m_Name: Player
   m_TagString: player
@@ -178,6 +179,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.4}
   m_EdgeRadius: 0
+--- !u!114 &114308509151208468
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1433641072763282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b351a26e872b54389b07349d0111de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackDistance: 1
+  knockbackTime: 0.3
+  timeKnockedOut: 0.3
 --- !u!114 &114616981870943816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -190,6 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
+  maxHealth: 5
   invincibleTime: 0.25
   alive: 0
 --- !u!114 &114776942030409604
@@ -237,9 +253,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3edc0805edeb094fa8c8e3a6c358908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  accelSpeed: 10
+  slowdownFactor: 1
   maxSpeed: 3
-  slowFactor: 1
+  speed: 2
+  accelSpeed: 10
   clampSpeed: 0.5
 --- !u!114 &114929449982207522
 MonoBehaviour:

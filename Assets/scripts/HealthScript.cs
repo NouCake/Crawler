@@ -5,6 +5,7 @@ using UnityEngine;
 public class HealthScript : MonoBehaviour {
 
     public int health = 5;
+    public int maxHealth = 5;
 
     public float invincibleTime = 0.25f;
 
