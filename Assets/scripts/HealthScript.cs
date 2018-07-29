@@ -37,6 +37,7 @@ public class HealthScript : MonoBehaviour {
 
     private void onDeath() {
         Debug.Log(this.name + " is dead");
+        Destroy(this.gameObject);
     }
 
     public bool dealDamage(int amount) {
