@@ -57,6 +57,10 @@ public class Inventory : MonoBehaviour{
         return false;
     }
 
+    public int getFilledSlots() {
+        return this.filledSlots;
+    }
+
     protected bool setAt(int index, Item item) {
         this.items[index] = item;
         return true;

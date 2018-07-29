@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour {
     #endregion
 
     public CameraController camController;
-    private Rigidbody2D body;
+    //private Rigidbody2D body;
 
     private PlayerMoveScript moveScript;
     private PlayerRollScript rollScript;
@@ -25,10 +25,10 @@ public class PlayerController : MonoBehaviour {
     private HealthScript healthScript;
     private Inventory inventory;
 
-    public Item i;
+    public bool inputBlocked;
 
     void Start() {
-        this.body = GetComponent<Rigidbody2D>();
+        //this.body = GetComponent<Rigidbody2D>();
         this.moveScript = GetComponent<PlayerMoveScript>();
         this.rollScript = GetComponent<PlayerRollScript>();
         this.attackScript = GetComponent<PlayerAttackScript>();
@@ -36,22 +36,22 @@ public class PlayerController : MonoBehaviour {
         this.healthScript = GetComponent<HealthScript>();
         this.inventory = GetComponent<Inventory>();
 
+        this.inputBlocked = false;
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Return)) {
-            InventoryRenderer invRen = UIController.ui.inventoryRenderer;
-            invRen.gameObject.SetActive(!invRen.gameObject.activeSelf);
-            //Debug.Log(invRen);
-            //UIController.ui.inventoryRenderer.gameObject.SetActive(!UIController.ui.inventoryRenderer.gameObject.activeSelf);
-        }
+
     }
 
-    public void doDamage(float amount, GameObject who) {
+    public void receiveDamage(float amount, GameObject who) {
         if (this.healthScript.dealDamage((int)amount)) {
             this.knockbackScript.knockback(who.transform.position);
             camController.shake(0.1f, 0.2f);
         }
+    }
+
+    public void heal(float amount) {
+        this.healthScript.heal(3);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -85,6 +85,18 @@ public class PlayerController : MonoBehaviour {
                 UIController.ui.setLastTarget(collision.gameObject);
             }
         }
+    }
+
+    public void blockInput() {
+        this.inputBlocked = true;
+    }
+
+    public void unblockInput() {
+        this.inputBlocked = false;
+    }
+
+    public bool isInputBlocked() {
+        return this.inputBlocked;
     }
 
 }

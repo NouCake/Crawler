@@ -5,16 +5,16 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour {
 
     private HealthScript health;
-    private Rigidbody2D body;
+    //private Rigidbody2D body;
 
     private KnockbackScript knockback;
-    private MoveBehaviour moveScript;
+    //private MoveBehaviour moveScript;
 
     void Start () {
-        this.body = GetComponent<Rigidbody2D>();
+        //this.body = GetComponent<Rigidbody2D>();
         this.health = GetComponent<HealthScript>();
         this.knockback = GetComponent<KnockbackScript>();
-        this.moveScript = GetComponent<MoveBehaviour>();
+        //this.moveScript = GetComponent<MoveBehaviour>();
     }
 
 	void Update () {

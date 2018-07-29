@@ -29,14 +29,17 @@ public class PlayerAttackScript : MonoBehaviour {
 
     private PlayerMoveScript moveScript;
     private Rigidbody2D body;
-    public ParticleSystem particle;
+    private PlayerController controller;
 
+
+    public ParticleSystem particle;
     private Vector2 particleOffset;
     private Vector2 particleComboOffset;
 
     void Start () {
         this.body = GetComponent<Rigidbody2D>();
         this.moveScript = GetComponent<PlayerMoveScript>();
+        this.controller = GetComponent<PlayerController>();
 
         this.hitboxOffset = this.hitbox.transform.localPosition;
         this.particleOffset = this.particle.transform.localPosition;
@@ -44,27 +47,30 @@ public class PlayerAttackScript : MonoBehaviour {
 
         this.attackTimer = 0;
         this.timeSinceLastHit = 0;
+        this.setCanAttack(true);
     }
 	
 	void Update () {
-
-        if (this.attackTimer <= 0) {
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-                this.attack(Vector2.left);
-
-            } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-                this.attack(Vector2.right);
-            } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
-                this.attack(Vector2.up);
-            } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-                this.attack(Vector2.down);
+        if (this.canAttack) {
+            if (this.attackTimer <= 0) {
+                if (!this.controller.isInputBlocked()) {
+                    if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+                        this.attack(Vector2.left);
+                    } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+                        this.attack(Vector2.right);
+                    } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
+                        this.attack(Vector2.up);
+                    } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+                        this.attack(Vector2.down);
+                    }
+                }
+            } else {
+                this.attackTimer -= Time.deltaTime;
             }
-        } else {
-            this.attackTimer -= Time.deltaTime;
-        }
-        this.timeSinceLastHit += Time.deltaTime;
-        if(this.timeSinceLastHit >= this.attackComboResetTime) {
-            this.comboCounter = 0;
+            this.timeSinceLastHit += Time.deltaTime;
+            if (this.timeSinceLastHit >= this.attackComboResetTime) {
+                this.comboCounter = 0;
+            }
         }
 
     }

@@ -6,12 +6,11 @@ public class ItemPickupScript : MonoBehaviour {
 
     public Item item;
 
-    private SpriteRenderer renderer;
-    private BoxCollider collider;
+    private SpriteRenderer spriteRenderer;
 
 	void Start () {
-        this.renderer = GetComponent<SpriteRenderer>();
-        this.renderer.sprite = item.sprite;
+        this.spriteRenderer = GetComponent<SpriteRenderer>();
+        this.spriteRenderer.sprite = item.sprite;
         this.name = item.name;
 	}
 

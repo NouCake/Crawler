@@ -103,7 +103,7 @@ public class EnemyAttackScript : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision) {
         if (this.attacking && collision.IsTouching(this.attackHitbox)) {
-            player.GetComponent<PlayerController>().doDamage(1, this.gameObject);
+            player.GetComponent<PlayerController>().receiveDamage(1, this.gameObject);
         }
     }
 

@@ -54,6 +54,11 @@ public class HealthScript : MonoBehaviour {
         }
     }
 
-    
+    public void heal(int amount) {
+        this.health += amount;
+        if(this.health >= this.maxHealth) {
+            this.health = this.maxHealth;
+        }
+    }
 
 }

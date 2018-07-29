@@ -8,37 +8,40 @@ public class PlayerMoveScript : MoveBehaviour {
     public float clampSpeed = 2;
     
     private Vector2 lastDirection; //last velocity vector that isnt 0, normalized
+    private PlayerController controller;
 
     void Start () {
+        this.controller = GetComponent<PlayerController>();
         this.init();
         this.lastDirection = Vector2.up;
     }
 
     protected override void move() {
+        if (!this.controller.isInputBlocked()) {
+            if (Input.GetKey(KeyCode.A)) {
+                this.newVel.x -= this.accelSpeed * Time.deltaTime;
+                if (this.newVel.x > 0) {
+                    this.newVel.x = 0;
+                }
+            }
+            if (Input.GetKey(KeyCode.D)) {
+                this.newVel.x += this.accelSpeed * Time.deltaTime;
+                if (this.newVel.x < 0) {
+                    this.newVel.x = 0;
+                }
+            }
 
-        if (Input.GetKey(KeyCode.A)) {
-            this.newVel.x -= this.accelSpeed * Time.deltaTime;
-            if (this.newVel.x > 0) {
-                this.newVel.x = 0;
+            if (Input.GetKey(KeyCode.W)) {
+                this.newVel.y += this.accelSpeed * Time.deltaTime;
+                if (this.newVel.y < 0) {
+                    this.newVel.y = 0;
+                }
             }
-        }
-        if (Input.GetKey(KeyCode.D)) {
-            this.newVel.x += this.accelSpeed * Time.deltaTime;
-            if (this.newVel.x < 0) {
-                this.newVel.x = 0;
-            }
-        }
-
-        if (Input.GetKey(KeyCode.W)) {
-            this.newVel.y += this.accelSpeed * Time.deltaTime;
-            if (this.newVel.y < 0) {
-                this.newVel.y = 0;
-            }
-        }
-        if (Input.GetKey(KeyCode.S)) {
-            this.newVel.y -= this.accelSpeed * Time.deltaTime;
-            if (this.newVel.y > 0) {
-                this.newVel.y = 0;
+            if (Input.GetKey(KeyCode.S)) {
+                this.newVel.y -= this.accelSpeed * Time.deltaTime;
+                if (this.newVel.y > 0) {
+                    this.newVel.y = 0;
+                }
             }
         }
         

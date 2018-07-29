@@ -15,6 +15,7 @@ public class PlayerRollScript : MonoBehaviour {
     private PlayerAttackScript attackScript;
     private Rigidbody2D body;
     private SpriteRenderer spriteRenderer;
+    private PlayerController controller;
 
     private Sprite defaultSprite;
 
@@ -23,6 +24,7 @@ public class PlayerRollScript : MonoBehaviour {
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.moveScript = GetComponent<PlayerMoveScript>();
         this.attackScript = GetComponent<PlayerAttackScript>();
+        this.controller = GetComponent<PlayerController>();
         this.body = GetComponent<Rigidbody2D>();
 
         this.defaultSprite = this.spriteRenderer.sprite;
@@ -32,16 +34,18 @@ public class PlayerRollScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!this.isRolling && Input.GetKeyDown(KeyCode.Space) && !this.moveScript.isMoveTimeout()) {
+        if (!this.controller.isInputBlocked()) {
+            if (!this.isRolling && Input.GetKeyDown(KeyCode.Space) && !this.moveScript.isMoveTimeout()) {
 
-            if (this.body.velocity.x == 0 && this.body.velocity.y == 0) {
-                this.body.velocity = this.moveScript.getLastDirection() * this.rollSpeed;
-            } else {
-                this.body.velocity = this.body.velocity.normalized * this.rollSpeed;
+                if (this.body.velocity.x == 0 && this.body.velocity.y == 0) {
+                    this.body.velocity = this.moveScript.getLastDirection() * this.rollSpeed;
+                } else {
+                    this.body.velocity = this.body.velocity.normalized * this.rollSpeed;
+                }
+                this.rollTimer = this.rollDistance / this.rollSpeed;
+                this.isRolling = true;
+                this.onRollBegin();
             }
-            this.rollTimer = this.rollDistance / this.rollSpeed;
-            this.isRolling = true;
-            this.onRollBegin();
         }
 
         if (this.isRolling) {
