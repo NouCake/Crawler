@@ -20,7 +20,7 @@ public class PlayerRollScript : MonoBehaviour {
     private Sprite defaultSprite;
 
 
-    void Start () {
+    void Start() {
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.moveScript = GetComponent<PlayerMoveScript>();
         this.attackScript = GetComponent<PlayerAttackScript>();
@@ -31,9 +31,9 @@ public class PlayerRollScript : MonoBehaviour {
         this.isRolling = false;
 
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         if (!this.controller.isInputBlocked()) {
             if (!this.isRolling && Input.GetKeyDown(KeyCode.Space) && !this.moveScript.isMoveTimeout()) {
 
@@ -76,7 +76,7 @@ public class PlayerRollScript : MonoBehaviour {
 
     public void OnTriggerStay2D(Collider2D collision) {
         if (collision.tag == "enemy") {
-            EnemyController enemy = collision.GetComponent<EnemyController>();
+            //EnemyController enemy = collision.GetComponent<EnemyController>();
         }
     }
 

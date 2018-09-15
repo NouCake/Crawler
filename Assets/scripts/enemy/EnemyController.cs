@@ -2,30 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour {
+public class EnemyController : Controller {
 
     private HealthScript health;
-    //private Rigidbody2D body;
-
     private KnockbackScript knockback;
-    //private MoveBehaviour moveScript;
 
-    void Start () {
-        //this.body = GetComponent<Rigidbody2D>();
+    override protected void init () {
         this.health = GetComponent<HealthScript>();
         this.knockback = GetComponent<KnockbackScript>();
-        //this.moveScript = GetComponent<MoveBehaviour>();
     }
-
-	void Update () {
-
-	}
 
     public void dealDamage(float attackVal, Vector3 causeLocation) {
         if (this.health.dealDamage((int)attackVal)) {
             this.knockback.knockback(causeLocation);
         }
 
+    }
+
+    new public EnemyMoveScript getMoveBehaviour() {
+        return (EnemyMoveScript)base.getMoveBehaviour();
     }
 
 }

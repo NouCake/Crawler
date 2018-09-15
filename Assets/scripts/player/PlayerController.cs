@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : Controller {
 
     #region Singleton
     public static PlayerController player;
@@ -18,29 +18,26 @@ public class PlayerController : MonoBehaviour {
     public CameraController camController;
     //private Rigidbody2D body;
 
-    private PlayerMoveScript moveScript;
+    private PlayerAttackScript attack;
+    private PlayerMoveScript move;
     private PlayerRollScript rollScript;
-    private PlayerAttackScript attackScript;
     private KnockbackScript knockbackScript;
     private HealthScript healthScript;
     private Inventory inventory;
 
     public bool inputBlocked;
 
-    void Start() {
+    override protected void init() {
         //this.body = GetComponent<Rigidbody2D>();
-        this.moveScript = GetComponent<PlayerMoveScript>();
         this.rollScript = GetComponent<PlayerRollScript>();
-        this.attackScript = GetComponent<PlayerAttackScript>();
         this.knockbackScript = GetComponent<KnockbackScript>();
         this.healthScript = GetComponent<HealthScript>();
         this.inventory = GetComponent<Inventory>();
 
+        this.move = (PlayerMoveScript)getMoveBehaviour();
+        this.attack = (PlayerAttackScript)getAttackBehaviour();
+
         this.inputBlocked = false;
-    }
-
-    void Update() {
-
     }
 
     public void receiveDamage(float amount, GameObject who) {
@@ -58,13 +55,12 @@ public class PlayerController : MonoBehaviour {
         if (collision.gameObject.tag == "terrain") {
             if (this.rollScript.getIsRolling()) {
                 camController.shake(0.1f, 0.2f);
-                this.moveScript.setTimout(0.5f);
+                move.setTimout(0.5f);
             }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        Debug.Log("hello");
         if (collision.gameObject.tag == "pickup") {
             ItemPickupScript pickup = collision.gameObject.GetComponent<ItemPickupScript>();
             this.inventory.add(pickup.item);
@@ -76,11 +72,13 @@ public class PlayerController : MonoBehaviour {
         //this should be weapon hitbox
         //needs change if multiple trigger collider are added to player
         if (collision.tag == "enemy") {
-            if (this.attackScript.isAttacking()) {
+            if (attack.isAttacking()) {
                 EnemyController enemy = collision.GetComponent<EnemyController>();
                 enemy.dealDamage(1, this.transform.position);
-                camController.shake(0.05f, 0.05f);
 
+                if (attack.isComboAttacking()) {
+                    camController.shake(0.1f, 0.1f);
+                }
                 //setting UI Target Healthbar
                 UIController.ui.setLastTarget(collision.gameObject);
             }
