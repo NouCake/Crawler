@@ -29,7 +29,9 @@ public class MenuController : MonoBehaviour {
             } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
                 UIController.ui.inventoryRenderer.cursorUp();
             } else if (Input.GetKeyDown(KeyCode.Return)) {
-                UIController.ui.inventoryRenderer.getSelectecdItem().onUse();
+                Item item = UIController.ui.inventoryRenderer.getSelectecdItem();
+                item.onUse();
+                UIController.ui.inventoryRenderer.inventory.remove(item);
             }
         }
 	}

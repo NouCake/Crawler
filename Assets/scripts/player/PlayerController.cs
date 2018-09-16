@@ -18,11 +18,9 @@ public class PlayerController : Controller {
     public CameraController camController;
     //private Rigidbody2D body;
 
-    private PlayerAttackScript attack;
+    private PlayerAttackBehaviour attack;
     private PlayerMoveScript move;
     private PlayerRollScript rollScript;
-    private KnockbackScript knockbackScript;
-    private HealthScript healthScript;
     private Inventory inventory;
 
     public bool inputBlocked;
@@ -30,25 +28,12 @@ public class PlayerController : Controller {
     override protected void init() {
         //this.body = GetComponent<Rigidbody2D>();
         this.rollScript = GetComponent<PlayerRollScript>();
-        this.knockbackScript = GetComponent<KnockbackScript>();
-        this.healthScript = GetComponent<HealthScript>();
         this.inventory = GetComponent<Inventory>();
 
         this.move = (PlayerMoveScript)getMoveBehaviour();
-        this.attack = (PlayerAttackScript)getAttackBehaviour();
+        this.attack = (PlayerAttackBehaviour)getAttackBehaviour();
 
         this.inputBlocked = false;
-    }
-
-    public void receiveDamage(float amount, GameObject who) {
-        if (this.healthScript.dealDamage((int)amount)) {
-            this.knockbackScript.knockback(who.transform.position);
-            camController.shake(0.1f, 0.2f);
-        }
-    }
-
-    public void heal(float amount) {
-        this.healthScript.heal(3);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -68,21 +53,8 @@ public class PlayerController : Controller {
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision) {
-        //this should be weapon hitbox
-        //needs change if multiple trigger collider are added to player
-        if (collision.tag == "enemy") {
-            if (attack.isAttacking()) {
-                EnemyController enemy = collision.GetComponent<EnemyController>();
-                enemy.dealDamage(1, this.transform.position);
-
-                if (attack.isComboAttacking()) {
-                    camController.shake(0.1f, 0.1f);
-                }
-                //setting UI Target Healthbar
-                UIController.ui.setLastTarget(collision.gameObject);
-            }
-        }
+    public void heal(int amount) {
+        Debug.Log("Player got healed");
     }
 
     public void blockInput() {

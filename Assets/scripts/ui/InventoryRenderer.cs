@@ -20,6 +20,7 @@ public class InventoryRenderer : MonoBehaviour {
         this.listContentContainer = this.transform.Find("List").Find("ListContent");
         this.renderedElements = new List<GameObject>();
         this.cursorPosition = -1;
+        gameObject.SetActive(false);
     }
 
     private void updateRenderer() {
@@ -78,7 +79,6 @@ public class InventoryRenderer : MonoBehaviour {
     }
 
     public Item getSelectecdItem() {
-        Debug.Log(this.cursorPosition);
         if(this.cursorPosition == -1) {
             return null;
         }

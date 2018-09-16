@@ -40,9 +40,9 @@ GameObject:
   - component: {fileID: 61173913612394262}
   - component: {fileID: 114616981870943816}
   - component: {fileID: 114776942030409604}
-  - component: {fileID: 114929449982207522}
+  - component: {fileID: 114810581432042708}
   - component: {fileID: 114882397164436410}
-  - component: {fileID: 114790096247992212}
+  - component: {fileID: 114929449982207522}
   - component: {fileID: 114308509151208468}
   m_Layer: 8
   m_Name: Player
@@ -220,7 +220,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camController: {fileID: 0}
---- !u!114 &114790096247992212
+  inputBlocked: 0
+--- !u!114 &114810581432042708
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -231,17 +232,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80892b7632b4e2f49af202dc8414fe11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitbox: {fileID: 1219916570773908}
-  attackPushForward: 3
-  attackTime: 0.2
-  attackMoveTimeout: 0.3
-  attackComboTime: 0.5
-  attackComboPushForward: 5
-  attackComboMoveTimeout: 0.7
-  attackComboResetTime: 0.5
-  offsetMultyplier: 1.5
-  comboAmount: 3
-  particle: {fileID: 198326451141544186}
+  attackHitbox: {fileID: 1219916570773908}
+  particles: {fileID: 198326451141544186}
+  attackResetTime: 0.2
+  attackTime: 0.5
+  attackPush: 5
+  attackMoveTimout: 0.3
+  comboChainTime: 0.6
+  comboAttackTime: 0.15
+  comboAttackResetTime: 0.5
+  comboAttackPush: 10
+  comboAttackMoveTimout: 0.5
 --- !u!114 &114882397164436410
 MonoBehaviour:
   m_ObjectHideFlags: 1

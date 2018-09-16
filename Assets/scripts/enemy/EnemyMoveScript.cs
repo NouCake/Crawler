@@ -22,8 +22,6 @@ public class EnemyMoveScript : MoveBehaviour {
             tmp.Normalize();
             tmp *= this.speed;
             this.newVel += tmp;
-        } else {
-            this.newVel = Vector2.zero;
         }
 
     }

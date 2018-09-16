@@ -59,10 +59,10 @@ public class MoveBehaviour : MonoBehaviour {
     }
 
     protected virtual void slowDown() {
-        if (this.body.velocity.magnitude >= 1) {
-            this.body.velocity -= this.body.velocity * slowdownFactor * Time.deltaTime;
+        if (newVel.magnitude >= 1) {
+            newVel -= newVel * slowdownFactor * Time.deltaTime;
         } else {
-            this.body.velocity = Vector2.zero;
+            newVel = Vector2.zero;
         }
     }
 

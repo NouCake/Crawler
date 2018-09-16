@@ -6,26 +6,25 @@ public class AttackBehaviour : MonoBehaviour {
 
     public GameObject attackHitbox;
     public ParticleSystem particles;
-
-    private Vector2 attackHitboxOffset;
+    
     private Vector2 particleOffset;
 
     private bool canAttack; //is true when Controller can start a Attack right now
 
-    public float attackTime = 0.5f; //the frequenzy for attacks
+    public float attackResetTime = 0.2f; //Time until controller can init a attack again
+    public float attackTime = 0.1f; //duration of a attack
     public float attackPush = 5; //the distance controller pushes forward when starting an attack
     public float attackMoveTimout = 0.3f; //the time controller cant move after he finished his attack
 
     private float attackTimer; //timer for current stuff
 
-    private Controller controller;
+    private Controller charController;
     protected Collider2D hitboxCollider;
     protected Vector2 lastDirection;
 
     void Start() {
-        controller = GetComponent<Controller>();
+        charController = GetComponent<Controller>();
 
-        attackHitboxOffset = attackHitbox.transform.localPosition;
         hitboxCollider = attackHitbox.GetComponent<Collider2D>();
         particleOffset = particles.transform.localPosition;
 
@@ -57,40 +56,40 @@ public class AttackBehaviour : MonoBehaviour {
         return false;
     }
 
-    private void attack(Vector2 attackDirection) {
-        attackTimer = attackTime; //starting attack
+    virtual protected void attack(Vector2 attackDirection) {
+        attackTimer = attackTime + attackResetTime; //starting attack
 
         //Attack Push
-        controller.timeoutMovement(attackMoveTimout); //prevents move bevahivour from slowing down the push
-        controller.getBody().velocity = attackDirection * attackPush; //inits push
+        charController.timeoutMovement(attackMoveTimout); //prevents move bevahivour from slowing down the push
+        charController.getBody().velocity = attackDirection * attackPush; //inits push
 
         //calculates rotation
-        float angle = Mathf.Atan2(attackDirection.y, -attackDirection.x) - Mathf.PI * .5f;
-        Vector3 pos = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0);
+        float angle = Mathf.Atan2(attackDirection.y, attackDirection.x) - Mathf.PI * .5f;
+        Vector3 pos = new Vector3(-Mathf.Sin(angle), Mathf.Cos(angle), 0);
 
         //rotates hitbox
-        attackHitbox.transform.localPosition = pos * attackHitboxOffset.magnitude;
-        attackHitbox.transform.eulerAngles = Vector3.forward * angle * Mathf.Rad2Deg;
+        attackHitbox.transform.eulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg);
 
         //rotating particle System
         particles.transform.localPosition = pos * particleOffset.magnitude;
-        particles.transform.eulerAngles = new Vector3(angle * Mathf.Rad2Deg, 90, 0);
-        particles.startRotation = angle;
+        particles.transform.eulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg);
+        var main = particles.main;
+        main.startRotation = -angle;
 
         particles.Emit(1);
 
     }
 
     public bool isAttacking() {
-        return attackTimer > 0;
+        return attackTimer > attackResetTime;
     }
 
     public void setCanAttack(bool canAttack) {
-       this.canAttack = canAttack;
+        this.canAttack = canAttack;
     }
 
     protected Controller getController() {
-        return controller;
+        return charController;
     }
 
     protected GameObject getAttackHitbox() {

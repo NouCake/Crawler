@@ -20,6 +20,7 @@ public class Inventory : MonoBehaviour{
 
         if(filledSlots >= slots) {
             //Inventory is full
+            Debug.Log("Inventory is full");
             return false;
         }
 

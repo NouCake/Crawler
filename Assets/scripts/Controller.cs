@@ -5,18 +5,27 @@ using UnityEngine;
 public class Controller : MonoBehaviour {
 
     private Rigidbody2D body;
-    private MoveBehaviour move;
-    private AttackBehaviour attack;
+    private MoveBehaviour moveBehaviour;
+    private AttackBehaviour attackBehaviour;
+    private HealthScript health;
+    private KnockbackScript knockbackBehaviour;
 
-	void Start () {
+    void Start () {
         body = GetComponent<Rigidbody2D>();
-        move = GetComponent<MoveBehaviour>();
-        attack = GetComponent<AttackBehaviour>();
+        moveBehaviour = GetComponent<MoveBehaviour>();
+        attackBehaviour = GetComponent<AttackBehaviour>();
+        knockbackBehaviour = GetComponent<KnockbackScript>();
+        health = GetComponent<HealthScript>();
         init();
 	}
 
     virtual protected void init() {
 
+    }
+
+    public void dealDamage(float amount, Vector2 sourcePosition) {
+        health.dealDamage((int)amount);
+        knockbackBehaviour.knockback(sourcePosition);
     }
 	
 
@@ -25,15 +34,15 @@ public class Controller : MonoBehaviour {
     }
 
     public void timeoutMovement(float time) {
-        move.setTimout(time);
+        moveBehaviour.setTimout(time);
     }
 
     public MoveBehaviour getMoveBehaviour() {
-        return move;
+        return moveBehaviour;
     }
 
     public AttackBehaviour getAttackBehaviour() {
-        return attack;
+        return attackBehaviour;
     }
 
 }

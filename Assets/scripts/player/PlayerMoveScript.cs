@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMoveScript : MoveBehaviour {
-    
+
     public float accelSpeed = 20;
     public float clampSpeed = 2;
-    
+
     private Vector2 lastDirection; //last velocity vector that isnt 0, normalized
     private PlayerController controller;
 
-    void Start () {
+    void Start() {
         this.controller = GetComponent<PlayerController>();
         this.init();
         this.lastDirection = Vector2.up;
@@ -44,7 +44,7 @@ public class PlayerMoveScript : MoveBehaviour {
                 }
             }
         }
-        
+
         //setting lastDirection
         if ((this.newVel.x == 0 && this.newVel.y == 0) && (this.body.velocity.x != 0 || this.body.velocity.y != 0)) {
             this.lastDirection = new Vector2(this.body.velocity.x, this.body.velocity.y).normalized;
@@ -52,7 +52,7 @@ public class PlayerMoveScript : MoveBehaviour {
 
     }
 
-    protected override void slowDown() {
+    override protected void slowDown() {
         bool movedX = this.newVel.x != this.body.velocity.x;
         bool movedY = this.newVel.y != this.body.velocity.y;
 
@@ -87,19 +87,6 @@ public class PlayerMoveScript : MoveBehaviour {
             } else {
                 this.newVel.y = 0;
             }
-        }
-
-        //clamps speed
-        if (this.newVel.x > this.maxSpeed) {
-            this.newVel.x = this.maxSpeed;
-        } else if (this.newVel.x < -this.maxSpeed) {
-            this.newVel.x = -this.maxSpeed;
-        }
-
-        if (this.newVel.y > this.maxSpeed) {
-            this.newVel.y = this.maxSpeed;
-        } else if (this.newVel.y < -this.maxSpeed) {
-            this.newVel.y = -this.maxSpeed;
         }
     }
 

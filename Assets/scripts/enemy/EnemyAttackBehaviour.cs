@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttackScript : AttackBehaviour {
+public class EnemyAttackBehaviour : AttackBehaviour {
 
     public float waitBeforeAttack = 0.2f; //time controller waits while player is in range before attack starts
     public float attackChargeTime = 0.3f; //when attack start controller charges attack into certain direction and cant move
@@ -31,9 +31,6 @@ public class EnemyAttackScript : AttackBehaviour {
             if (moveTimer <= 0) {
                 moveTimer = waitBeforeAttack;
                 charging = false;
-                controller.timeoutMovement(attackChargeTime + waitBeforeAttack);
-                lastDirection = PlayerController.player.transform.position - transform.position;
-                lastDirection = lastDirection.normalized;
                 return true;
             } else {
                 moveTimer -= Time.deltaTime;
@@ -44,6 +41,9 @@ public class EnemyAttackScript : AttackBehaviour {
                 if (moveTimer <= 0) {
                     charging = true;
                     moveTimer = attackChargeTime;
+                    lastDirection = PlayerController.player.transform.position - transform.position;
+                    lastDirection = lastDirection.normalized;
+                    controller.timeoutMovement(attackChargeTime);
                 }
             } else {
                 moveTimer = waitBeforeAttack;
@@ -54,8 +54,8 @@ public class EnemyAttackScript : AttackBehaviour {
     }
 
     private void OnTriggerStay2D(Collider2D collision) {
-        if (isAttacking() && collision.IsTouching(hitboxCollider)) {
-            PlayerController.player.GetComponent<PlayerController>().receiveDamage(1, this.gameObject);
+        if (isAttacking() && collision.IsTouching(hitboxCollider) && collision.tag == "player") {
+            PlayerController.player.GetComponent<PlayerController>().dealDamage(1, transform.position);
         }
     }
 

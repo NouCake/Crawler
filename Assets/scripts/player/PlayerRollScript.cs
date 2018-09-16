@@ -12,7 +12,7 @@ public class PlayerRollScript : MonoBehaviour {
     private bool isRolling;
 
     private PlayerMoveScript moveScript;
-    private PlayerAttackScript attackScript;
+    private PlayerAttackBehaviour attackScript;
     private Rigidbody2D body;
     private SpriteRenderer spriteRenderer;
     private PlayerController controller;
@@ -23,7 +23,7 @@ public class PlayerRollScript : MonoBehaviour {
     void Start() {
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.moveScript = GetComponent<PlayerMoveScript>();
-        this.attackScript = GetComponent<PlayerAttackScript>();
+        this.attackScript = GetComponent<PlayerAttackBehaviour>();
         this.controller = GetComponent<PlayerController>();
         this.body = GetComponent<Rigidbody2D>();
 
