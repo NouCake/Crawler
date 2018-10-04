@@ -18,7 +18,7 @@ public class PlayerController : Controller {
     public CameraController camController;
     //private Rigidbody2D body;
 
-    private PlayerAttackBehaviour attack;
+    //private PlayerAttackBehaviour attack;
     private PlayerMoveScript move;
     private PlayerRollScript rollScript;
     private Inventory inventory;
@@ -31,9 +31,15 @@ public class PlayerController : Controller {
         this.inventory = GetComponent<Inventory>();
 
         this.move = (PlayerMoveScript)getMoveBehaviour();
-        this.attack = (PlayerAttackBehaviour)getAttackBehaviour();
+        //this.attack = (PlayerAttackBehaviour)getAttackBehaviour();
 
         this.inputBlocked = false;
+    }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.T)) {
+            getKnockbackBehaviou().knockback(Vector2.zero);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

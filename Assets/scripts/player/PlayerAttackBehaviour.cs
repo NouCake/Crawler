@@ -63,7 +63,6 @@ public class PlayerAttackBehaviour : AttackBehaviour {
         }
         timeSinceLastAttack = 0;
         comboCounter++;
-        Debug.Log(comboCounter);
 
         if (comboCounter >= 3) {
             attackTime = comboAttackTime;
@@ -81,16 +80,17 @@ public class PlayerAttackBehaviour : AttackBehaviour {
         base.attack(attackDirection);
     }
 
-    private void OnTriggerStay2D(Collider2D collision) {
-        if (isAttacking() && collision.IsTouching(hitboxCollider) && collision.tag == "enemy") {
-            Controller other = collision.GetComponent<Controller>();
-            UIController.ui.setLastTarget(collision.gameObject);
-            if (isComboAttacking()) {
-                Camera.main.GetComponent<CameraController>().shake(0.1f, 0.2f);
-                other.dealDamage(2, transform.position);
-            } else {
-                other.dealDamage(1, transform.position);
-            }
+    protected override bool filterTarget(GameObject other) {
+        if (other.tag == "enemy") {
+            return true;
+        }
+        return false;
+    }
+
+    new void OnTriggerStay2D(Collider2D collision) {
+        base.OnTriggerStay2D(collision);
+        if(isAttacking() && filterTarget(collision.gameObject)) {
+            UIController.ui.setLastTarget(collision.GetComponent<Controller>());
         }
     }
 

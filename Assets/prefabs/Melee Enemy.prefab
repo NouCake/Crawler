@@ -23,8 +23,8 @@ GameObject:
   - component: {fileID: 114346078466973826}
   - component: {fileID: 114759435197405398}
   - component: {fileID: 114016436489696150}
-  - component: {fileID: 114781105489536076}
   - component: {fileID: 114632208020890256}
+  - component: {fileID: 114872308027926634}
   - component: {fileID: 50487473857202742}
   - component: {fileID: 61868079244982482}
   m_Layer: 10
@@ -238,7 +238,7 @@ MonoBehaviour:
   speed: 2
   minDistance: 1.15
   maxDistance: 4.5
---- !u!114 &114781105489536076
+--- !u!114 &114872308027926634
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -246,13 +246,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1560979776482138}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: addbe9140c5ab364bbd3f942c7f0400d, type: 3}
+  m_Script: {fileID: 11500000, guid: ac59fa88cdbd7c846bc90b80fa88c0c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
-  maxHealth: 5
-  invincibleTime: 0.5
-  alive: 0
 --- !u!198 &198024684105353822
 ParticleSystem:
   m_ObjectHideFlags: 1

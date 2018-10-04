@@ -20,7 +20,6 @@ public class KnockbackScript : MonoBehaviour {
     }
 
     private void Update() {
-        this.GetComponent<MoveBehaviour>();
         if(this.timer > 0) {
             this.timer -= Time.deltaTime;
             this.body.velocity += this.knockVel * Time.deltaTime;
@@ -41,9 +40,7 @@ public class KnockbackScript : MonoBehaviour {
         this.knockVel = knockback;
         this.body.velocity = -knockback * this.knockbackTime;
         this.timer = this.knockbackTime;
-        if(this.move != null) {
-            this.move.setCanMove(false);
-        }
+        this.move.setCanMove(false);
     }
 
 }

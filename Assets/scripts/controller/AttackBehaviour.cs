@@ -18,12 +18,12 @@ public class AttackBehaviour : MonoBehaviour {
 
     private float attackTimer; //timer for current stuff
 
-    private Controller charController;
+    private Controller controller;
     protected Collider2D hitboxCollider;
     protected Vector2 lastDirection;
 
     void Start() {
-        charController = GetComponent<Controller>();
+        controller = GetComponent<Controller>();
 
         hitboxCollider = attackHitbox.GetComponent<Collider2D>();
         particleOffset = particles.transform.localPosition;
@@ -51,6 +51,8 @@ public class AttackBehaviour : MonoBehaviour {
         }
     }
 
+    //When to init a attack
+    //example: player uses keyboard
     virtual protected bool checkAttackCondition() {
         Debug.Log("base checking condition");
         return false;
@@ -60,8 +62,8 @@ public class AttackBehaviour : MonoBehaviour {
         attackTimer = attackTime + attackResetTime; //starting attack
 
         //Attack Push
-        charController.timeoutMovement(attackMoveTimout); //prevents move bevahivour from slowing down the push
-        charController.getBody().velocity = attackDirection * attackPush; //inits push
+        controller.timeoutMovement(attackMoveTimout); //prevents move bevahivour from slowing down the push
+        controller.getBody().velocity = attackDirection * attackPush; //inits push
 
         //calculates rotation
         float angle = Mathf.Atan2(attackDirection.y, attackDirection.x) - Mathf.PI * .5f;
@@ -80,6 +82,18 @@ public class AttackBehaviour : MonoBehaviour {
 
     }
 
+    //Returns true when this controller can hit other
+    virtual protected bool filterTarget(GameObject other) {
+        return false;
+    }
+
+    public void OnTriggerStay2D(Collider2D collision) {
+        if (isAttacking() && filterTarget(collision.gameObject)) {
+            Controller other = collision.GetComponent<Controller>();
+            other.dealDamage(controller.getStats().getStr(), controller);
+        }
+    }
+
     public bool isAttacking() {
         return attackTimer > attackResetTime;
     }
@@ -89,7 +103,7 @@ public class AttackBehaviour : MonoBehaviour {
     }
 
     protected Controller getController() {
-        return charController;
+        return controller;
     }
 
     protected GameObject getAttackHitbox() {

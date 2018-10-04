@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HealthbarScript : MonoBehaviour {
 
-    private HealthScript target;
+    private Controller target;
 
     private RectTransform healthRect;
     private Image healthbarImage;
@@ -24,16 +24,18 @@ public class HealthbarScript : MonoBehaviour {
 
     void Update() {
         if(this.target != null) {
-            this.healthRect.sizeDelta = new Vector2(this.startWidth * target.health / target.maxHealth, this.healthRect.sizeDelta.y);
-            this.healthbarImage.color = new Color(Mathf.Lerp(this.critColor.r, this.startColor.r, target.health / (float)target.maxHealth),
-                Mathf.Lerp(this.critColor.g, this.startColor.g, target.health / (float)target.maxHealth),
-                Mathf.Lerp(this.critColor.b, this.startColor.b, target.health / (float)target.maxHealth));
+            float hp = target.getStats().getCurHP();
+            float maxHP = target.getStats().getMaxHP();
+            this.healthRect.sizeDelta = new Vector2(this.startWidth * hp / maxHP, this.healthRect.sizeDelta.y);
+            this.healthbarImage.color = new Color(Mathf.Lerp(this.critColor.r, this.startColor.r, hp / maxHP),
+                Mathf.Lerp(this.critColor.g, this.startColor.g, hp / maxHP),
+                Mathf.Lerp(this.critColor.b, this.startColor.b, hp / maxHP));
         } else {
             this.gameObject.SetActive(false);
         }
     }
 
-    public void setTarget(HealthScript target) {
+    public void setTarget(Controller target) {
         this.target = target;
         this.label = GetComponentInChildren<Text>();
         this.label.text = this.target.transform.name;

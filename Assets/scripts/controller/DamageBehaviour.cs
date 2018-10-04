@@ -2,6 +2,55 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class DamageBehaviour : MonoBehaviour {
+
+    private Controller controller;
+    private SpriteRenderer render;
+    //time controller is invincible after receiving damage
+    private float invincibleTimer;
+    private Color colorNormal;
+    private Color colorInvince;
+
+    void Start() {
+        controller = GetComponent<Controller>();  
+        render = GetComponent<SpriteRenderer>();
+        colorNormal = render.color;
+        colorInvince = new Color(0, 0, 0, 0.5f);
+    }
+
+    void Update () {
+		if(invincibleTimer > 0) {
+            invincibleTimer -= Time.deltaTime;
+            render.color = colorInvince;
+        } else {
+            render.color = colorNormal;
+        }
+	}
+
+    public void dealDamage(float amount, Controller other) {
+        if (!isInvincible()) {
+            int damage = (int)amount - controller.getStats().getDef();
+            if (damage < 1) damage = 1;
+            controller.getStats().setCurHP(controller.getStats().getCurHP() - damage);
+            controller.onDamageReveived(other.transform.position);
+            invincibleTimer = 0.5f;
+        }
+    }
+
+    public void setInvincible(float time) {
+        this.invincibleTimer = time;
+    }
+
+    public bool isInvincible() {
+        return invincibleTimer > 0;
+    }
+
+}
+
+/*using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class HealthScript : MonoBehaviour {
 
     public int health = 5;
@@ -61,4 +110,4 @@ public class HealthScript : MonoBehaviour {
         }
     }
 
-}
+}*/

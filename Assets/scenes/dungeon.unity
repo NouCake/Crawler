@@ -652,8 +652,14 @@ Prefab:
       propertyPath: attackMoveTimout
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 114308509151208468, guid: 1c50a2713c3a81d4fb9ea9320c8b0ccf,
+        type: 2}
+      propertyPath: knockbackDistance
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
+    - {fileID: 114616981870943816, guid: 1c50a2713c3a81d4fb9ea9320c8b0ccf, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 1c50a2713c3a81d4fb9ea9320c8b0ccf, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &771539289 stripped
@@ -661,12 +667,6 @@ GameObject:
   m_PrefabParentObject: {fileID: 1433641072763282, guid: 1c50a2713c3a81d4fb9ea9320c8b0ccf,
     type: 2}
   m_PrefabInternal: {fileID: 541573081}
---- !u!114 &771539294 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114616981870943816, guid: 1c50a2713c3a81d4fb9ea9320c8b0ccf,
-    type: 2}
-  m_PrefabInternal: {fileID: 541573081}
-  m_Script: {fileID: 11500000, guid: addbe9140c5ab364bbd3f942c7f0400d, type: 3}
 --- !u!4 &771539299 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4563723002770468, guid: 1c50a2713c3a81d4fb9ea9320c8b0ccf,
@@ -841,7 +841,7 @@ Prefab:
         type: 2}
       propertyPath: HealthToDisplay
       value: 
-      objectReference: {fileID: 771539294}
+      objectReference: {fileID: 0}
     - target: {fileID: 1787611496952464, guid: 5216dfc482a7b0640b7898cc0572ca25, type: 2}
       propertyPath: m_Name
       value: Player Healthbar
@@ -1018,7 +1018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealthbar: {fileID: 1941710940}
   targetHealthbar: {fileID: 1774859380}
-  inventoryRenderer: {fileID: 0}
+  inventoryRenderer: {fileID: 2098205969}
 --- !u!114 &1713441377
 MonoBehaviour:
   m_ObjectHideFlags: 0

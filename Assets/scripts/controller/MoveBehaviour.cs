@@ -40,7 +40,6 @@ public class MoveBehaviour : MonoBehaviour {
                 }
             }
 
-
             if (!this.hasMoved()) {
                 this.slowDown();
             }
