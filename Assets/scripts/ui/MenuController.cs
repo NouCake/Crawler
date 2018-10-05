@@ -24,6 +24,12 @@ public class MenuController : MonoBehaviour {
         }
 
         if (this.inMenu) {
+            handleMenuNavigationInput();
+        }
+	}
+
+    private void handleMenuNavigationInput() {
+        /*
             if (Input.GetKeyDown(KeyCode.DownArrow)) {
                 UIController.ui.inventoryRenderer.cursorDown();
             } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
@@ -33,8 +39,8 @@ public class MenuController : MonoBehaviour {
                 item.onUse();
                 UIController.ui.inventoryRenderer.inventory.remove(item);
             }
-        }
-	}
+         */
+    }
 
     private void openMenu() {
         this.player.blockInput();

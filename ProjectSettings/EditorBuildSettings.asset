@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/scenes/dungeon.unity
     guid: 3e33ebcf9df2ee44888a770676a87e43
+  - enabled: 1
+    path: Assets/scenes/game over.unity
+    guid: a95dc1a4c05e13d4bb6a6c0ea1a008c2

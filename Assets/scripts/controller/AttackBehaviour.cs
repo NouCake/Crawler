@@ -16,17 +16,15 @@ public class AttackBehaviour : MonoBehaviour {
     public float attackPush = 5; //the distance controller pushes forward when starting an attack
     public float attackMoveTimout = 0.3f; //the time controller cant move after he finished his attack
 
-    private float attackTimer; //timer for current stuff
+    protected float attackTimer; //timer for current stuff
 
-    private Controller controller;
+    protected Controller controller;
     protected Collider2D hitboxCollider;
     protected Vector2 lastDirection;
 
     void Start() {
         controller = GetComponent<Controller>();
 
-        hitboxCollider = attackHitbox.GetComponent<Collider2D>();
-        particleOffset = particles.transform.localPosition;
 
         canAttack = true;
         attackTimer = 0;
@@ -34,8 +32,13 @@ public class AttackBehaviour : MonoBehaviour {
         init();
     }
 
-    virtual protected void init() {
+    virtual protected void initHitParticle() {
+        hitboxCollider = attackHitbox.GetComponent<Collider2D>();
+        particleOffset = particles.transform.localPosition;
+    }
 
+    virtual protected void init() {
+        initHitParticle();
     }
 
     // Update is called once per frame
@@ -43,6 +46,7 @@ public class AttackBehaviour : MonoBehaviour {
         if (canAttack) {
             if (attackTimer <= 0) {
                 if (checkAttackCondition()) {
+                    attackTimer = attackTime + attackResetTime; //starting attack
                     attack(lastDirection);
                 }
             } else {
@@ -59,26 +63,31 @@ public class AttackBehaviour : MonoBehaviour {
     }
 
     virtual protected void attack(Vector2 attackDirection) {
-        attackTimer = attackTime + attackResetTime; //starting attack
-
         //Attack Push
-        controller.timeoutMovement(attackMoveTimout); //prevents move bevahivour from slowing down the push
-        controller.getBody().velocity = attackDirection * attackPush; //inits push
-
+        initAttackPush(attackDirection);
         //calculates rotation
         float angle = Mathf.Atan2(attackDirection.y, attackDirection.x) - Mathf.PI * .5f;
-        Vector3 pos = new Vector3(-Mathf.Sin(angle), Mathf.Cos(angle), 0);
-
         //rotates hitbox
-        attackHitbox.transform.eulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg);
+        rotateHitbox(angle);
+        rotateParticleSystem(angle);
+        particles.Emit(1);
+    }
 
-        //rotating particle System
+    protected void initAttackPush(Vector2 attackDirection) {
+        controller.timeoutMovement(attackMoveTimout); //prevents move bevahivour from slowing down the push
+        controller.getBody().velocity = attackDirection * attackPush; //inits push
+    }
+    
+    protected void rotateHitbox(float angle) {
+        attackHitbox.transform.eulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg);
+    }
+
+    protected void rotateParticleSystem(float angle) {
+        Vector3 pos = new Vector3(-Mathf.Sin(angle), Mathf.Cos(angle), 0);
         particles.transform.localPosition = pos * particleOffset.magnitude;
         particles.transform.eulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg);
         var main = particles.main;
         main.startRotation = -angle;
-
-        particles.Emit(1);
 
     }
 
@@ -90,11 +99,13 @@ public class AttackBehaviour : MonoBehaviour {
     public void OnTriggerStay2D(Collider2D collision) {
         if (isAttacking() && filterTarget(collision.gameObject)) {
             Controller other = collision.GetComponent<Controller>();
-            other.dealDamage(controller.getStats().getStr(), controller);
+            other.dealDamage(controller.getStats().getStr());
+            other.knockback(transform.position - other.transform.position, 1, .3f, .3f);
         }
     }
 
     public bool isAttacking() {
+        //attacktimer while be set to attackResetTime + attack duration
         return attackTimer > attackResetTime;
     }
 

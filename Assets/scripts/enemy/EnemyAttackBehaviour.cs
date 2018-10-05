@@ -14,6 +14,7 @@ public class EnemyAttackBehaviour : AttackBehaviour {
     private bool charging;
 
     override protected void init() {
+        base.init();
         enemyController = (EnemyController)getController();
 
         moveTimer = 0;
@@ -22,9 +23,10 @@ public class EnemyAttackBehaviour : AttackBehaviour {
     }
 
     protected override bool checkAttackCondition() {
-        distanceToPlayer = Vector3.Distance(transform.position, PlayerController.player.transform.position);
 
+        //Checks if enemy is already charging
         if (charging) {
+            //moveTimer = attackChargeTime
             if (moveTimer <= 0) {
                 moveTimer = waitBeforeAttack;
                 charging = false;
@@ -33,9 +35,11 @@ public class EnemyAttackBehaviour : AttackBehaviour {
                 moveTimer -= Time.deltaTime;
             }
         } else {
-            if (distanceToPlayer <= enemyController.getMoveBehaviour().minDistance) {
+            //checks distance to player
+            distanceToPlayer = Vector3.Distance(transform.position, PlayerController.player.transform.position);
+            if (distanceToPlayer <= enemyController.getMoveBehaviour().minDistance) { //player is in range
                 moveTimer -= Time.deltaTime;
-                if (moveTimer <= 0) {
+                if (moveTimer <= 0) { //moveTimer = waitBeforeAttack
                     charging = true;
                     moveTimer = attackChargeTime;
                     lastDirection = PlayerController.player.transform.position - transform.position;

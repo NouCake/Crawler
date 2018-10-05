@@ -38,7 +38,7 @@ public class HealthbarScript : MonoBehaviour {
     public void setTarget(Controller target) {
         this.target = target;
         this.label = GetComponentInChildren<Text>();
-        this.label.text = this.target.transform.name;
+        this.label.text = target.name;
         this.gameObject.SetActive(true);
     }
 

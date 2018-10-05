@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : Controller {
 
@@ -16,30 +17,40 @@ public class PlayerController : Controller {
     #endregion
 
     public CameraController camController;
-    //private Rigidbody2D body;
 
-    //private PlayerAttackBehaviour attack;
     private PlayerMoveScript move;
     private PlayerRollScript rollScript;
     private Inventory inventory;
 
+    //private Rigidbody2D body;
+    //private PlayerAttackBehaviour attack;
+    //private PlayerStats stats;
+
     public bool inputBlocked;
+    private int gold;
 
     override protected void init() {
-        //this.body = GetComponent<Rigidbody2D>();
         this.rollScript = GetComponent<PlayerRollScript>();
         this.inventory = GetComponent<Inventory>();
-
         this.move = (PlayerMoveScript)getMoveBehaviour();
+        //this.body = GetComponent<Rigidbody2D>();
         //this.attack = (PlayerAttackBehaviour)getAttackBehaviour();
 
+        setStats(new PlayerStats(this));
         this.inputBlocked = false;
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.T)) {
-            getKnockbackBehaviou().knockback(Vector2.zero);
-        }
+        UIController.ui.updateUI();
+    }
+
+    public override void onDamageReveived() {
+        base.onDamageReveived();
+        camController.shake(0.1f, 0.1f);
+    }
+
+    public override void onDeath() {
+        SceneManager.LoadScene("game over");
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -57,6 +68,22 @@ public class PlayerController : Controller {
             this.inventory.add(pickup.item);
             pickup.pickup();
         }
+    }
+
+    public void addXP(int xp) {
+        getStats().addXP(xp);
+    }
+
+    new public PlayerStats getStats() {
+        return (PlayerStats)base.getStats();
+    }
+
+    public void addGold(int gold) {
+        this.gold += gold;
+    }
+
+    public int getGold() {
+        return gold;
     }
 
     public void heal(int amount) {

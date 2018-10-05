@@ -20,6 +20,7 @@ public class PlayerAttackBehaviour : AttackBehaviour {
     private float timeSinceLastAttack;
 
     protected override void init() {
+        base.init();
         normalAttackTime = attackTime;
         normalAttackResetTime = attackResetTime;
         normalAttackPush = attackPush;

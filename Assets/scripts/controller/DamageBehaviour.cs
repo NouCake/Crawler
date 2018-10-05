@@ -27,12 +27,12 @@ public class DamageBehaviour : MonoBehaviour {
         }
 	}
 
-    public void dealDamage(float amount, Controller other) {
+    public void dealDamage(float amount) {
         if (!isInvincible()) {
             int damage = (int)amount - controller.getStats().getDef();
             if (damage < 1) damage = 1;
             controller.getStats().setCurHP(controller.getStats().getCurHP() - damage);
-            controller.onDamageReveived(other.transform.position);
+            controller.onDamageReveived();
             invincibleTimer = 0.5f;
         }
     }

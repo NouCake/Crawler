@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class KnockbackScript : MonoBehaviour {
-
-    public float knockbackDistance = 5; //The distance the Object should be knocked back
-    public float knockbackTime = .5f; // time to travel the Knockback Distance
-    public float timeKnockedOut = 0.3f; //the time that is waited after knockout to move again
-
+    
     private Rigidbody2D body;
     private MoveBehaviour move;
     private Vector2 knockVel;
 
+    private float timeKnockedOut;
     private float timer;
 
 	void Start () {
@@ -34,13 +31,18 @@ public class KnockbackScript : MonoBehaviour {
         }
     }
 
-    public void knockback(Vector3 causedBy) {
-        Vector2 knockback = causedBy - this.transform.position;
-        knockback = knockback.normalized * 2 * this.knockbackDistance / (this.knockbackTime * this.knockbackTime);
+    /**
+     * Vector2 direction 
+     */
+    public void knockback(Vector2 direction, float distance, float time, float timeKnockedOut) {
+        this.timeKnockedOut = timeKnockedOut;
+        Vector2 knockback = direction;
+        knockback = knockback.normalized * 2 * distance / (time * time);
         this.knockVel = knockback;
-        this.body.velocity = -knockback * this.knockbackTime;
-        this.timer = this.knockbackTime;
+        this.body.velocity = -knockback * time;
+        this.timer = time;
         this.move.setCanMove(false);
     }
+    
 
 }

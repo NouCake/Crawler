@@ -15,18 +15,20 @@ public class UIController : MonoBehaviour {
 
     public HealthbarScript playerHealthbar;
     public HealthbarScript targetHealthbar;
-    public InventoryRenderer inventoryRenderer;
+
+    private CharacterInfoController charInf;
 
     void Start() {
         this.playerHealthbar.setTarget(PlayerController.player);
-        inventoryRenderer = GetComponentInChildren<InventoryRenderer>(true);
-        if(inventoryRenderer == null) {
-            Debug.Log("Could not find InventoryRenderer");
-        }
+        this.charInf = GetComponentInChildren<CharacterInfoController>();
     }
 
     public void setLastTarget(Controller target) {
         this.targetHealthbar.setTarget(target);
+    }
+
+    public void updateUI() {
+        charInf.updateStats();
     }
 
 

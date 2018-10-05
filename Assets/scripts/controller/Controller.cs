@@ -17,17 +17,17 @@ public class Controller : MonoBehaviour {
         attackBehaviour = GetComponent<AttackBehaviour>();
         knockbackBehaviour = GetComponent<KnockbackScript>();
         damageBehaviour = GetComponent<DamageBehaviour>();
-        stats = new ControllerStats(this);
         init();
     }
 
     virtual protected void init() {
+        stats = new ControllerStats(this);
     }
 
     //Should be called to deal damage to Controller
     // damage to controller = amount - this.def (but atleast 1)
-    public void dealDamage(float amount, Controller other) {
-        damageBehaviour.dealDamage(amount, other);
+    public void dealDamage(float amount) {
+        damageBehaviour.dealDamage(amount);
     }
 
     //Runs when Controller dies
@@ -36,8 +36,11 @@ public class Controller : MonoBehaviour {
     }
 
     //Runs when Controller takes damage
-    public virtual void onDamageReveived(Vector2 sourceLocation) {
-        knockbackBehaviour.knockback(sourceLocation);
+    public virtual void onDamageReveived() {
+    }
+
+    public void knockback(Vector2 direction, float distance, float time, float timeKnockedOut) {
+        knockbackBehaviour.knockback(direction, distance, time, timeKnockedOut);
     }
 
     public Rigidbody2D getBody() {
@@ -60,8 +63,12 @@ public class Controller : MonoBehaviour {
         return stats;
     }
 
-    public KnockbackScript getKnockbackBehaviou() {
+    public KnockbackScript getKnockbackBehaviour() {
         return knockbackBehaviour;
+    }
+
+    public void setStats(ControllerStats stats) {
+        this.stats = stats;
     }
 
 }

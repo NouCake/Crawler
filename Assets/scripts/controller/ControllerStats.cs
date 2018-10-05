@@ -7,21 +7,23 @@ public class ControllerStats  {
 
     private Controller controller;
 
+    private int level;
     private int str;
     private int def;
     private int vit;
 
     private int curHP;
 
-    public ControllerStats(Controller controller) : this(controller, 10, 10, 10){
+    public ControllerStats(Controller controller) : this(controller, 10, 5, 5){
 
     }
 
-    public ControllerStats(Controller controller, int str, int def, int vit) {
+    public ControllerStats(Controller controller, int vit, int str, int def) {
         this.controller = controller;
+        this.vit = vit;
         this.str = str;
         this.def = def;
-        this.vit = vit;
+        this.level = 1;
 
         this.curHP = vit;
     }
@@ -51,6 +53,18 @@ public class ControllerStats  {
 
     public int getVit() {
         return vit;  
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public Controller getController() {
+        return controller;
     }
 
 }
