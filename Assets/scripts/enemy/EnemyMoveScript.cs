@@ -9,8 +9,7 @@ public class EnemyMoveScript : MoveBehaviour {
 
     private GameObject player;
     
-    void Start() {
-        this.init();
+    override public void init() {
         this.player = GameObject.FindGameObjectWithTag("player");
     }
 

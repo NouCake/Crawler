@@ -7,7 +7,6 @@ TagManager:
   - terrain
   - enemy
   - player
-  - hitbox
   - pickup
   layers:
   - Default
@@ -21,7 +20,7 @@ TagManager:
   - player
   - terrain
   - enemy
-  - hitbox
+  - 
   - 
   - 
   - 

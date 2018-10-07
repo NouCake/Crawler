@@ -22,7 +22,8 @@ public class EnemyAttackBehaviour : AttackBehaviour {
         distanceToPlayer = 0;
     }
 
-    protected override bool checkAttackCondition() {
+    public override bool checkAttackCondition() {
+        //Inits a Attack when player is long enough in range
 
         //Checks if enemy is already charging
         if (charging) {
@@ -40,18 +41,30 @@ public class EnemyAttackBehaviour : AttackBehaviour {
             if (distanceToPlayer <= enemyController.getMoveBehaviour().minDistance) { //player is in range
                 moveTimer -= Time.deltaTime;
                 if (moveTimer <= 0) { //moveTimer = waitBeforeAttack
-                    charging = true;
-                    moveTimer = attackChargeTime;
-                    lastDirection = PlayerController.player.transform.position - transform.position;
-                    lastDirection = lastDirection.normalized;
-                    enemyController.timeoutMovement(attackChargeTime);
+                    //activating charging
+                    startCharging();
                 }
             } else {
                 moveTimer = waitBeforeAttack;
             }
         }
-
         return false;
+    }
+
+    public override void onAttackEnd() {
+        getController().getDirectionBehaviour().unlockDirection();
+    }
+
+    private void startCharging() {
+        charging = true;
+        moveTimer = attackChargeTime;
+        Vector2 direction = PlayerController.player.transform.position - transform.position;
+        setLastDirection(direction.normalized);
+        enemyController.timeoutMovement(attackChargeTime);
+        DirectionBehaviour dirBehav = getController().getDirectionBehaviour();
+        dirBehav.setDirection(direction);
+        dirBehav.lockDirection();
+        dirBehav.startAttackBlink();
     }
 
     protected override bool filterTarget(GameObject other) {

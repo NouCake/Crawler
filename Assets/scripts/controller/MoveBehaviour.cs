@@ -12,17 +12,19 @@ public class MoveBehaviour : MonoBehaviour {
     private float timoutTimer = 0;
 
     protected Vector2 newVel;
-
     protected Rigidbody2D body;
+    private Controller controller;
+
 
     void Start() {
+        body = GetComponent<Rigidbody2D>();
+        canMove = true;
+        newVel = body.velocity;
+        controller = GetComponent<Controller>();
         this.init();
     }
 
-    protected void init() {
-        this.body = GetComponent<Rigidbody2D>();
-        this.canMove = true;
-        this.newVel = this.body.velocity;
+    virtual public void init() {
     }
 	
 	void Update () {
@@ -75,6 +77,10 @@ public class MoveBehaviour : MonoBehaviour {
 
     public void setCanMove(bool canMove) {
         this.canMove = canMove;
+    }
+
+    public Controller getController() {
+        return controller;
     }
 
 }

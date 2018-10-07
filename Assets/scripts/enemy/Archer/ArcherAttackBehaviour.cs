@@ -12,21 +12,24 @@ public class ArcherAttackBehaviour : AttackBehaviour {
         enemyController = (EnemyController)getController();
     }
 
-    override protected bool checkAttackCondition() {
+    public override void attackUpdate() {
+    }
+
+    override public bool checkAttackCondition() {
         float distanceToPlayer = Vector3.Distance(transform.position, PlayerController.player.transform.position);
         if (distanceToPlayer <= enemyController.getMoveBehaviour().minDistance) {
-            lastDirection = PlayerController.player.transform.position - transform.position;
-            lastDirection = lastDirection.normalized;
+            Vector2 direction = PlayerController.player.transform.position - transform.position;
+            setLastDirection(direction.normalized);
             return true;
         }
-
+        resetAttack();
         return false;
     }
 
     override protected void attack(Vector2 attackDirection) {
         GameObject arw = Instantiate(arrow);
         arw.transform.position = transform.position;
-        arw.GetComponent<Rigidbody2D>().velocity = attackDirection * arrowSpeed;
+        arw.GetComponent<ArrowBehaviour>().shoot(attackDirection, arrowSpeed);
         initAttackPush(attackDirection);
     }
 

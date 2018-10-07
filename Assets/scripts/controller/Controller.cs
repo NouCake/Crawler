@@ -10,6 +10,7 @@ public class Controller : MonoBehaviour {
     private KnockbackScript knockbackBehaviour;
     private DamageBehaviour damageBehaviour;
     private ControllerStats stats;
+    private DirectionBehaviour directionBehaviour;
 
     void Start() {
         body = GetComponent<Rigidbody2D>();
@@ -17,6 +18,7 @@ public class Controller : MonoBehaviour {
         attackBehaviour = GetComponent<AttackBehaviour>();
         knockbackBehaviour = GetComponent<KnockbackScript>();
         damageBehaviour = GetComponent<DamageBehaviour>();
+        directionBehaviour = GetComponentInChildren<DirectionBehaviour>();
         init();
     }
 
@@ -35,7 +37,9 @@ public class Controller : MonoBehaviour {
         Debug.Log(tag + " is Dead");
     }
 
-    //Runs when Controller takes damage
+    /**
+     * Runs when Controller takes damage
+     */
     public virtual void onDamageReveived() {
     }
 
@@ -43,12 +47,22 @@ public class Controller : MonoBehaviour {
         knockbackBehaviour.knockback(direction, distance, time, timeKnockedOut);
     }
 
-    public Rigidbody2D getBody() {
-        return body;
+    //GETTER // SETTER
+
+    public DirectionBehaviour getDirectionBehaviour() {
+        return directionBehaviour;
+    }
+
+    public void setStats(ControllerStats stats) {
+        this.stats = stats;
     }
 
     public void timeoutMovement(float time) {
         moveBehaviour.setTimout(time);
+    }
+
+    public Rigidbody2D getBody() {
+        return body;
     }
 
     public MoveBehaviour getMoveBehaviour() {
@@ -65,10 +79,6 @@ public class Controller : MonoBehaviour {
 
     public KnockbackScript getKnockbackBehaviour() {
         return knockbackBehaviour;
-    }
-
-    public void setStats(ControllerStats stats) {
-        this.stats = stats;
     }
 
 }

@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class PlayerRollScript : MonoBehaviour {
 
-    public float rollSpeed = 20;
-    public float rollDistance = 50;
+    public float rollSpeed = 8;
+    public float rollDistance = 2;
+    public float rollRecoveryTime = 0.25f;
     public Sprite rollSprite;
 
     private float rollTimer = 0;
-    private bool isRolling;
-
-    private PlayerMoveScript moveScript;
-    private PlayerAttackBehaviour attackScript;
-    private Rigidbody2D body;
+    private float rollRecoveryTimer = 0;
+    private bool rolling;
+    
     private SpriteRenderer spriteRenderer;
     private PlayerController controller;
 
@@ -22,62 +21,59 @@ public class PlayerRollScript : MonoBehaviour {
 
     void Start() {
         this.spriteRenderer = GetComponent<SpriteRenderer>();
-        this.moveScript = GetComponent<PlayerMoveScript>();
-        this.attackScript = GetComponent<PlayerAttackBehaviour>();
         this.controller = GetComponent<PlayerController>();
-        this.body = GetComponent<Rigidbody2D>();
 
         this.defaultSprite = this.spriteRenderer.sprite;
-        this.isRolling = false;
+        this.rolling = false;
 
     }
-
-    // Update is called once per frame
+    
     void Update() {
-        if (!this.controller.isInputBlocked()) {
-            if (!this.isRolling && Input.GetKeyDown(KeyCode.Space) && !this.moveScript.isMoveTimeout()) {
-
-                if (this.body.velocity.x == 0 && this.body.velocity.y == 0) {
-                    this.body.velocity = this.moveScript.getLastDirection() * this.rollSpeed;
-                } else {
-                    this.body.velocity = this.body.velocity.normalized * this.rollSpeed;
-                }
-                this.rollTimer = this.rollDistance / this.rollSpeed;
-                this.isRolling = true;
-                this.onRollBegin();
+        if (!controller.isInputBlocked()) {
+            if (!rolling && rollRecoveryTimer <= 0 && Input.GetKeyDown(KeyCode.Space) && !controller.getMoveBehaviour().isMoveTimeout()) {
+                startRolling();
             }
         }
 
-        if (this.isRolling) {
-            this.rollTimer -= Time.deltaTime;
-            if (this.rollTimer < 0) {
-                this.isRolling = false;
-                this.onRollEnd();
+        if (rolling) {
+            rollTimer -= Time.deltaTime;
+            if (rollTimer < 0) {
+                stopRolling();
             }
         }
+
+        if(rollRecoveryTimer > 0) {
+            rollRecoveryTimer -= Time.deltaTime;
+        }
+    }
+
+    private void startRolling() {
+        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        direction.Normalize();
+        controller.getBody().velocity = direction * rollSpeed;
+        rollTimer = rollDistance / rollSpeed;
+        rolling = true;
+        onRollBegin();
+    }
+
+    public void stopRolling() {
+        rolling = false;
+        rollTimer = 0;
+        rollRecoveryTimer = rollRecoveryTime;
+        onRollEnd();
     }
 
     private void onRollBegin() {
-        this.moveScript.setCanMove(false);
-        this.attackScript.setCanAttack(false);
-        this.spriteRenderer.sprite = rollSprite;
+        controller.getMoveBehaviour().setCanMove(false);
+        spriteRenderer.sprite = rollSprite;
     }
 
     private void onRollEnd() {
-        this.attackScript.setCanAttack(true);
-        this.moveScript.setCanMove(true);
-        this.spriteRenderer.sprite = defaultSprite;
-
+        controller.getMoveBehaviour().setCanMove(true);
+        spriteRenderer.sprite = defaultSprite;
     }
 
-    public bool getIsRolling() {
-        return this.isRolling;
+    public bool isRolling() {
+        return rolling;
     }
-
-    public void OnTriggerStay2D(Collider2D collision) {
-        if (collision.tag == "enemy") {
-            //EnemyController enemy = collision.GetComponent<EnemyController>();
-        }
-    }
-
 }

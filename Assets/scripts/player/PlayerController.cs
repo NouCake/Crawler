@@ -18,8 +18,8 @@ public class PlayerController : Controller {
 
     public CameraController camController;
 
-    private PlayerMoveScript move;
-    private PlayerRollScript rollScript;
+    private PlayerMoveBehaviour move;
+    private PlayerRollScript rollBehaviour;
     private Inventory inventory;
 
     //private Rigidbody2D body;
@@ -30,9 +30,9 @@ public class PlayerController : Controller {
     private int gold;
 
     override protected void init() {
-        this.rollScript = GetComponent<PlayerRollScript>();
+        this.rollBehaviour = GetComponent<PlayerRollScript>();
         this.inventory = GetComponent<Inventory>();
-        this.move = (PlayerMoveScript)getMoveBehaviour();
+        this.move = (PlayerMoveBehaviour)getMoveBehaviour();
         //this.body = GetComponent<Rigidbody2D>();
         //this.attack = (PlayerAttackBehaviour)getAttackBehaviour();
 
@@ -42,6 +42,7 @@ public class PlayerController : Controller {
 
     private void Update() {
         UIController.ui.updateUI();
+        getDirectionBehaviour().setDirection(Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position);
     }
 
     public override void onDamageReveived() {
@@ -55,9 +56,10 @@ public class PlayerController : Controller {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == "terrain") {
-            if (this.rollScript.getIsRolling()) {
+            if (rollBehaviour.isRolling()) {
                 camController.shake(0.1f, 0.2f);
-                move.setTimout(0.5f);
+                move.setTimout(0.1f);
+                rollBehaviour.stopRolling();
             }
         }
     }
@@ -100,6 +102,14 @@ public class PlayerController : Controller {
 
     public bool isInputBlocked() {
         return this.inputBlocked;
+    }
+
+    public PlayerRollScript getRollBehaviour() {
+        return rollBehaviour;
+    }
+
+    new public PlayerMoveBehaviour getMoveBehaviour() {
+        return (PlayerMoveBehaviour)base.getMoveBehaviour();
     }
 
 }

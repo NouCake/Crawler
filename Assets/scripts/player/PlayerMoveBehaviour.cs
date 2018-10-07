@@ -2,22 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveScript : MoveBehaviour {
+public class PlayerMoveBehaviour : MoveBehaviour {
 
     public float accelSpeed = 20;
     public float clampSpeed = 2;
 
     private Vector2 lastDirection; //last velocity vector that isnt 0, normalized
-    private PlayerController controller;
 
-    void Start() {
-        this.controller = GetComponent<PlayerController>();
-        this.init();
+    override public void init() {
         this.lastDirection = Vector2.up;
     }
 
     protected override void move() {
-        if (!this.controller.isInputBlocked()) {
+        if (!this.getController().isInputBlocked()) {
             if (Input.GetKey(KeyCode.A)) {
                 this.newVel.x -= this.accelSpeed * Time.deltaTime;
                 if (this.newVel.x > 0) {
@@ -92,6 +89,10 @@ public class PlayerMoveScript : MoveBehaviour {
 
     public Vector2 getLastDirection() {
         return this.lastDirection;
+    }
+
+    new public PlayerController getController() {
+        return (PlayerController)base.getController();
     }
 
 }
