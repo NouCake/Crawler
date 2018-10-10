@@ -11,6 +11,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1560979776482138}
   m_IsPrefabParent: 1
+--- !u!1 &1316904482713008
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4472590000327004}
+  - component: {fileID: 58857645432977258}
+  m_Layer: 10
+  m_Name: PathCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1399553987554308
 GameObject:
   m_ObjectHideFlags: 1
@@ -77,7 +93,7 @@ GameObject:
   - component: {fileID: 4371448948296050}
   - component: {fileID: 61573073794996460}
   m_Layer: 0
-  m_Name: AttackHitbox
+  m_Name: AttackCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,6 +128,7 @@ Transform:
   - {fileID: 4371448948296050}
   - {fileID: 4795832773018500}
   - {fileID: 4835608144841362}
+  - {fileID: 4472590000327004}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -140,6 +157,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4086654847615192}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4472590000327004
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1316904482713008}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4086654847615192}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4795832773018500
 Transform:
@@ -188,6 +218,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &58857645432977258
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1316904482713008}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.25
 --- !u!61 &61573073794996460
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -251,8 +296,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackHitbox: {fileID: 1755973929589778}
   particles: {fileID: 198024684105353822}
-  attackResetTime: 0.2
-  attackTime: 0.5
+  attackResetTime: 0.5
+  attackTime: 0.25
   attackPush: 5
   attackMoveTimout: 0.3
   waitBeforeAttack: 0.2
@@ -290,6 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad6aa33b3b67674e93c57255f4e15a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &114759435197405398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -377,7 +423,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1208821428
+  randomSeed: -1638493916
   InitialModule:
     serializedVersion: 3
     enabled: 1

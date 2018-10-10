@@ -8,6 +8,7 @@ public class PlayerRollScript : MonoBehaviour {
     public float rollDistance = 2;
     public float rollRecoveryTime = 0.25f;
     public Sprite rollSprite;
+    public ParticleSystem rollParticles;
 
     private float rollTimer = 0;
     private float rollRecoveryTimer = 0;
@@ -54,6 +55,7 @@ public class PlayerRollScript : MonoBehaviour {
         rollTimer = rollDistance / rollSpeed;
         rolling = true;
         onRollBegin();
+        rollParticles.Emit(1);
     }
 
     public void stopRolling() {

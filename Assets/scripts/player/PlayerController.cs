@@ -17,6 +17,7 @@ public class PlayerController : Controller {
     #endregion
 
     public CameraController camController;
+    public ParticleSystem moveParticles;
 
     private PlayerMoveBehaviour move;
     private PlayerRollScript rollBehaviour;
@@ -43,6 +44,11 @@ public class PlayerController : Controller {
     private void Update() {
         UIController.ui.updateUI();
         getDirectionBehaviour().setDirection(Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position);
+        if(moveParticles.isPlaying && getBody().velocity.magnitude < 1) {
+            moveParticles.Stop();
+        } else if(moveParticles.isStopped && getBody().velocity.magnitude > 1) {
+            moveParticles.Play();
+        }
     }
 
     public override void onDamageReveived() {

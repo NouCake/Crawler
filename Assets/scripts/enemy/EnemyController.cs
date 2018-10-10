@@ -20,4 +20,12 @@ public class EnemyController : Controller {
         Destroy(gameObject);
     }
 
+    private void OnTriggerStay2D(Collider2D collision) {
+        if (collision.tag == "path collider") {
+            Vector2 vel = getBody().velocity;
+            getBody().velocity = (transform.position - collision.transform.position) * 0.3f;
+            getBody().velocity += vel;
+        }
+    }
+
 }
