@@ -18,6 +18,7 @@ public class PlayerController : Controller {
 
     public CameraController camController;
     public ParticleSystem moveParticles;
+    public ParticleSystem hitParticles;
 
     private PlayerMoveBehaviour move;
     private PlayerRollScript rollBehaviour;
@@ -54,6 +55,7 @@ public class PlayerController : Controller {
     public override void onDamageReveived() {
         base.onDamageReveived();
         camController.shake(0.1f, 0.1f);
+        hitParticles.Play();
     }
 
     public override void onDeath() {
