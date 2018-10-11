@@ -1,11 +1,11 @@
 # Crawler
 
-# Controls:
-WASD		Moving
-Space		Dash
+# Controls
+WASD		Moving\n
+Space		Dash\n
 Mouse		Attacking
 
-# Downloads:
+# Downloads
 Build 0.6:
 https://drive.google.com/uc?export=download&id=1xcPtnJtLcCg3PspovNOfh8V9RZjuJmjh
 
