@@ -32,6 +32,23 @@ public class Controller : MonoBehaviour {
         damageBehaviour.dealDamage(amount);
     }
 
+    public void dealDamageWithKnockback(float amount, Vector2 direction, float distance, float time, float timeKnockedOut) {
+        if (!damageBehaviour.isInvincible()) {
+            dealDamage(amount);
+            knockback(direction, distance, time, timeKnockedOut);
+        }
+    }
+
+    virtual public void onKnockout() {
+        attackBehaviour.setCanAttack(false);
+        moveBehaviour.setCanMove(false);
+    }
+
+    virtual public void onKnockoutOver() {
+        attackBehaviour.setCanAttack(true);
+        moveBehaviour.setCanMove(true);
+    }
+
     //Runs when Controller dies
     public virtual void onDeath() {
         Debug.Log(tag + " is Dead");

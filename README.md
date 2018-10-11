@@ -6,6 +6,9 @@ Space		Dash
 Mouse		Attacking
 
 # Downloads:
+Build 0.6:
+https://drive.google.com/uc?export=download&id=1xcPtnJtLcCg3PspovNOfh8V9RZjuJmjh
+
 Build 0.5.1 HOTFIX:
 https://drive.google.com/uc?export=download&id=13p_7ZDhfgjG1SJHAcWoJjuPYwwSebr2x
 

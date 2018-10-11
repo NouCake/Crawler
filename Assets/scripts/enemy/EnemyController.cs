@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class EnemyController : Controller {
 
+    public int vit = 5;
+    public int str = 10;
+    public int def = 10;
+
+    protected override void init() {
+        setStats(new ControllerStats(this, vit, str, def));
+    }
+
     private void Update() {
         if (!getAttackBehaviour().isAttacking()) {
             getDirectionBehaviour().setDirection(PlayerController.player.transform.position - transform.position);

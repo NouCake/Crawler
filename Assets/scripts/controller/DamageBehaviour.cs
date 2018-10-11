@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DamageBehaviour : MonoBehaviour {
 
+    public float timeInvicibleAfterHit = 0.5f;
+
     private Controller controller;
     private SpriteRenderer render;
     //time controller is invincible after receiving damage
@@ -33,7 +35,7 @@ public class DamageBehaviour : MonoBehaviour {
             if (damage < 1) damage = 1;
             controller.getStats().setCurHP(controller.getStats().getCurHP() - damage);
             controller.onDamageReveived();
-            invincibleTimer = 0.5f;
+            invincibleTimer = timeInvicibleAfterHit;
         }
     }
 

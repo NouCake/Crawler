@@ -138,8 +138,7 @@ public class AttackBehaviour : MonoBehaviour {
     public void OnTriggerStay2D(Collider2D collision) {
         if (isAttacking() && filterTarget(collision.gameObject)) {
             Controller other = collision.GetComponent<Controller>();
-            other.dealDamage(controller.getStats().getStr());
-            other.knockback(transform.position - other.transform.position, 1, .3f, .3f);
+            other.dealDamageWithKnockback(controller.getStats().getStr(), transform.position - other.transform.position, 1, .3f, .3f);
         }
     }
 

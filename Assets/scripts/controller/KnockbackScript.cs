@@ -3,46 +3,69 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class KnockbackScript : MonoBehaviour {
-    
-    private Rigidbody2D body;
-    private MoveBehaviour move;
-    private Vector2 knockVel;
 
-    private float timeKnockedOut;
-    private float timer;
+    public ParticleSystem particles;
+
+    private Controller controller;
+    private Rigidbody2D body;
+    private Vector2 knockVel;
+    
+    private float knockbackTimer;
+    private float knockedOutTimer;
 
 	void Start () {
+        controller = GetComponent<Controller>();
         this.body = GetComponent<Rigidbody2D>();
-        this.move = GetComponent<MoveBehaviour>();
     }
 
     private void Update() {
-        if(this.timer > 0) {
-            this.timer -= Time.deltaTime;
+        if(this.knockbackTimer > 0) {
+            this.knockbackTimer -= Time.deltaTime;
             this.body.velocity += this.knockVel * Time.deltaTime;
             if(this.body.velocity.magnitude <= 0.2f) {
                 this.body.velocity = Vector2.zero;
             }
-            if(this.timer <= 0) {
+            if(this.knockbackTimer <= 0) {
                 this.body.velocity = Vector2.zero;
-                this.move.setCanMove(true);
-                this.move.setTimout(this.timeKnockedOut);
             }
         }
+        if (knockedOutTimer > 0) {
+            knockedOutTimer -= Time.deltaTime;
+            if (knockedOutTimer <= 0) {
+                onKnockoutOver();
+            }
+        }
+    }
+
+    private void onKnockout() {
+        controller.onKnockout();
+    }
+
+    private void onKnockoutOver() {
+        controller.onKnockoutOver();
     }
 
     /**
      * Vector2 direction 
      */
     public void knockback(Vector2 direction, float distance, float time, float timeKnockedOut) {
-        this.timeKnockedOut = timeKnockedOut;
+        knockedOutTimer = timeKnockedOut;
         Vector2 knockback = direction;
         knockback = knockback.normalized * 2 * distance / (time * time);
         this.knockVel = knockback;
         this.body.velocity = -knockback * time;
-        this.timer = time;
-        this.move.setCanMove(false);
+        this.knockbackTimer = time;
+
+        onKnockout();
+        emitParticles(direction);
     }
     
+    private void emitParticles(Vector2 direction) {
+        if(particles != null) {
+            float angle = Mathf.Atan2(direction.y, direction.x);
+            particles.transform.eulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg);
+            particles.Play();
+        }
+    }
 
 }

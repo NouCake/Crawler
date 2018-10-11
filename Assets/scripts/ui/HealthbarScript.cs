@@ -26,7 +26,7 @@ public class HealthbarScript : MonoBehaviour {
         if(this.target != null) {
             float hp = target.getStats().getCurHP();
             float maxHP = target.getStats().getMaxHP();
-            this.healthRect.sizeDelta = new Vector2(this.startWidth * hp / maxHP, this.healthRect.sizeDelta.y);
+            this.healthRect.anchorMax = new Vector2(hp / maxHP, healthRect.anchorMax.y);
             this.healthbarImage.color = new Color(Mathf.Lerp(this.critColor.r, this.startColor.r, hp / maxHP),
                 Mathf.Lerp(this.critColor.g, this.startColor.g, hp / maxHP),
                 Mathf.Lerp(this.critColor.b, this.startColor.b, hp / maxHP));

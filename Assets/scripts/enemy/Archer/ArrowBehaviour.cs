@@ -25,13 +25,13 @@ public class ArrowBehaviour : MonoBehaviour {
         if(collision.transform.tag == "terrain") {
             Destroy(gameObject);
         } else if(collision.transform.tag == "player"){
-            PlayerController.player.dealDamage(damage);
+            PlayerController.player.dealDamageWithKnockback(damage, transform.position - PlayerController.player.transform.position, 1, .3f, .3f);
             Destroy(gameObject);
         }
     }
     
     public void shoot(Vector2 direction, float speed) {
-        transform.localEulerAngles = Vector3.forward * Mathf.Atan2(direction.y, direction.x);
+        transform.localEulerAngles = Vector3.forward * (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90);
         GetComponent<Rigidbody2D>().velocity = direction.normalized * speed;
         lifespan = 5;
     }
