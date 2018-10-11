@@ -16,7 +16,11 @@ public class EnemyMoveScript : MoveBehaviour {
     protected override void move() {
 
         float distance = Vector3.Distance(this.transform.position, this.player.transform.position);
-        if (distance >= minDistance && distance <= maxDistance) {
+        Debug.Log(distance);
+        if(distance < minDistance) {
+            Debug.Log("too close");
+            newVel = Vector2.zero;
+        } else if (distance <= maxDistance) {
             Vector2 tmp = this.player.transform.position - this.transform.position;
             tmp.Normalize();
             tmp *= this.speed;
