@@ -1,8 +1,8 @@
 # Crawler
 
 # Controls
-WASD		Moving\n
-Space		Dash\n
+WASD		Moving  
+Space		Dash  
 Mouse		Attacking
 
 # Downloads
