@@ -1,5 +1,5 @@
 # Crawler
-
+![alt text](https://i.imgur.com/zU0vYbc.gif)
 # Controls
 WASD		Moving  
 Space		Dash  
